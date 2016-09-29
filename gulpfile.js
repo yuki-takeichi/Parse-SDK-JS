@@ -78,3 +78,19 @@ gulp.task('minify', function() {
     .pipe(rename({ extname: '.min.js' }))
     .pipe(gulp.dest('./dist'))
 });
+
+gulp.task('cloudcode', function() {
+  var stream = browserify({
+    builtins: ['_process', 'events'],
+    entries: 'lib/node/Parse.js',
+    standalone: 'Parse'
+  })
+  .exclude('xmlhttprequest')
+  .ignore('_process')
+  .bundle();
+
+  return stream.pipe(source('parse-cloudcode-latest.js'))
+    .pipe(derequire())
+    .pipe(insert.prepend(DEV_HEADER))
+    .pipe(gulp.dest('./dist'));
+});
