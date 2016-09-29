@@ -130,6 +130,7 @@ const RESTController = {
         headers['User-Agent'] = 'Parse/' + CoreManager.get('VERSION') +
           ' (NodeJS ' + process.versions.node + ')';
       }
+      headers['X-Parse-From-Cloud-Code'] = "1";
 
       xhr.open(method, url, true);
       for (var h in headers) {
